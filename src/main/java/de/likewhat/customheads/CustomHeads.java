@@ -55,7 +55,7 @@ public class CustomHeads extends JavaPlugin {
     public static int hisOverflow = 18;
     @Getter private static Configs updateFile;
     @Getter private static Configs headsConfig;
-//    @Getter private static Configs categoryLoaderConfig;
+    @Getter private static Configs categoryLoaderConfig;
     @Getter private static JsonFile playerDataFile;
     @Getter private static Looks looks;
     @Getter private static CustomHeads instance;
@@ -73,8 +73,8 @@ public class CustomHeads extends JavaPlugin {
     private static boolean keepCategoryPermissions = false;
     private static boolean categoriesBuyable = false;
     private static boolean headsPermanentBuy = false;
-    private static boolean canSeeOwnHistory = false;
-    private static boolean historyEnabled = false;
+    private static boolean canSeeOwnHistory = true;
+    private static boolean historyEnabled = true;
     private static boolean reducedDebug = false;
     private static boolean headsBuyable = false;
     private static boolean hasEconomy = false;
@@ -283,7 +283,7 @@ public class CustomHeads extends JavaPlugin {
         categoriesBuyable = headsConfig.get().getBoolean("economy.category.buyable");
         headsBuyable = headsConfig.get().getBoolean("economy.heads.buyable");
         headsPermanentBuy = headsConfig.get().getBoolean("economy.heads.permanentBuy");
-//        categoryLoaderConfig = new Configs(instance, "loadedCategories.yml", true);
+        categoryLoaderConfig = new Configs(instance, "loadedCategories.yml", true);
 
         tagEditor = new TagEditor("chTags");
 
@@ -307,19 +307,19 @@ public class CustomHeads extends JavaPlugin {
 
         // Add Category Permissions
         PluginManager manager = getServer().getPluginManager();
-//        categoryManager.getCategoryList().forEach(category -> {
-//            System.out.println("Adding Permission: " + category.getPermission());
-//            Permission categoryPermission = new Permission(category.getPermission() + ".allheads");
-//            categoryPermission.getChildren().put(category.getPermission(), true);
-//            categoryPermission.addParent(category.getPermission() + ".allheads", false);
-//            manager.addPermission(categoryPermission);
-//        });
+        categoryManager.getCategoryList().forEach(category -> {
+            System.out.println("Adding Permission: " + category.getPermission());
+            Permission categoryPermission = new Permission(category.getPermission() + ".allheads");
+            categoryPermission.getChildren().put(category.getPermission(), true);
+            categoryPermission.addParent(category.getPermission() + ".allheads", false);
+            manager.addPermission(categoryPermission);
+        });
 
         // Register Listeners
         manager.registerEvents(new InventoryListener(), this);
         manager.registerEvents(new OtherListeners(), this);
         // TODO Implement after 2.9.9 Update
-//        manager.registerEvents(new CategoryEditorListener(), this);
+        manager.registerEvents(new CategoryEditorListener(), this);
 
         // Setting up APIHandler
         api = new APIHandler();
