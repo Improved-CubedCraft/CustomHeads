@@ -53,7 +53,7 @@
 mainMenu: "main-menu"
 maxUndoHistory: 6
 history:
-  seeown: false
+  seeown: true
   enabled: true
   overflow: 18
 economy:
